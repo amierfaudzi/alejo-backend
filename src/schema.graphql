@@ -1,0 +1,52 @@
+# Three root types - Query, Mutation, Subscription
+
+type Query {
+    info: String!
+}
+
+type Mutation {
+    #signup
+    #signin
+    #post
+    #upvote
+    #downvote
+}
+
+type User {
+    id: ID!
+    about: String!
+    email: String!
+    expertise: [Expertise!]!
+    questions: [Question!]!
+    answers: [answers!]!
+}
+
+type Expertise {
+    title: String!
+    rating: Number!
+}
+
+type Question {
+    content: String!
+    user: User!
+    id: ID!
+}
+
+type Answer {
+    content: String!
+    user: User!
+    id: ID!
+}
+
+type UpVote {
+
+}
+
+type DownVote {
+
+}
+
+enum Sort {
+    asc
+    desc
+}
