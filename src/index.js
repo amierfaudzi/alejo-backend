@@ -1,9 +1,25 @@
-const express = require('express');
+const { ApolloServer } = require('apollo-server');
 
-const app = express();
+// GraphQL schema here
+const typeDefs = `
+    type Query {
+        info: String!
+    }
+`
+// Actual implementation of the schema
+const resolvers = {
+    Query: {
+        info: () => "Hi"
+    }
+}
 
-app.get('/', (req, res, next)=>{
-    res.send("Hi")
+const server = new ApolloServer({
+    typeDefs,
+    resolvers,
 })
 
-app.listen(8000);
+server
+    .listen()
+    .then(({ url }) => {
+        console.log(`Server is running on ${url}`)
+    })
