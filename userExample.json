@@ -1,0 +1,31 @@
+
+// Guide
+{
+    {
+        "id": "123",
+        "firstName": "Abu",
+        "lastName": "Bakar",
+        "email": "abu.bakar@mail.com",
+        "location": "Toronto, Ontario",
+        "guide": true,
+        "expertise": [
+            {"general": 5},
+            {"location": 5}
+            {"job": 4}
+        ]
+    }
+}
+// If the guide is true then create an expertise that can be traced to the user
+{
+    {
+        "id": "123",
+        "firstName": "Ali",
+        "lastName": "Bob",
+        "email": "ali.bob@mail.com",
+        "location": "Montreal, Quebec",
+        "guide": false,
+        "expertise": [
+
+        ]
+    }
+}

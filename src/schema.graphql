@@ -2,51 +2,56 @@
 
 type Query {
     info: String!
+    users: [User!]!
+    user(id: ID!): User
+    guide(guide: true): [User]!
 }
 
-type Mutation {
-    #signup
-    #signin
-    #post
-    #upvote
-    #downvote
-}
+# type Mutation {
+#     #signup
+#     #signin
+#     #post
+#     #upvote
+#     #downvote
+# }
 
 type User {
     id: ID!
     about: String!
     email: String!
-    expertise: [Expertise!]!
-    questions: [Question!]!
-    answers: [answers!]!
+    location: String!
+    # expertise: [Expertise!]!
+    guide: Boolean!
 }
 
-type Expertise {
-    title: String!
-    rating: Number!
-}
+# # might be able to combine this with the user directly
+# type Expertise {
+#     title: String!
+#     rating: Number!
+#     user: User!
+# }
 
-type Question {
-    content: String!
-    user: User!
-    id: ID!
-}
+# type Question {
+#     content: String!
+#     user: User!
+#     id: ID!
+# }
 
-type Answer {
-    content: String!
-    user: User!
-    id: ID!
-}
+# type Answer {
+#     content: String!
+#     user: User!
+#     id: ID!
+# }
 
-type UpVote {
+# type UpVote {
 
-}
+# }
 
-type DownVote {
+# type DownVote {
 
-}
+# }
 
-enum Sort {
-    asc
-    desc
-}
+# enum Sort {
+#     asc
+#     desc
+# }
