@@ -2,6 +2,7 @@ const { ApolloServer } = require('apollo-server');
 const fs = require('fs');
 const path = require('path');
 
+// Dummy users data
 let users = [
     {
     "id": "123",
@@ -31,7 +32,8 @@ let users = [
 const resolvers = {
     Query: {
         info: () => "Hi",
-        guides: () => guide,
+        users: () => users,
+        guide: () => users.filter(user=>user.guide == true)
     },
     // Resolvers for the User type
     User: {
@@ -40,6 +42,8 @@ const resolvers = {
         lastName: (parent) => parent.lastName,
         email: (parent) => parent.email,
         location: (parent) => parent.location,
+        guide: (parent) => parent.guide,
+        about: (parent) => parent.about
     }
 }
 

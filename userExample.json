@@ -5,12 +5,14 @@
         "id": "123",
         "firstName": "Abu",
         "lastName": "Bakar",
+        "about": "HI kjansdjkbmn hjasbjk qw",
         "email": "abu.bakar@mail.com",
         "location": "Toronto, Ontario",
         "guide": true,
+        "contact": "https://calendly.com/abu.bakar"
         "expertise": [
             {"general": 5},
-            {"location": 5}
+            {"location": 5},
             {"job": 4}
         ]
     }
@@ -21,6 +23,7 @@
         "id": "123",
         "firstName": "Ali",
         "lastName": "Bob",
+        "about": "Hello kjansdjkbmn hjasbjk qw",
         "email": "ali.bob@mail.com",
         "location": "Montreal, Quebec",
         "guide": false,

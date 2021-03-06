@@ -3,8 +3,8 @@
 type Query {
     info: String!
     users: [User!]!
-    user(id: ID!): User
-    guide(guide: true): [User]!
+    # user(id: ID!): User
+    guide: [User!]!
 }
 
 # type Mutation {
@@ -13,6 +13,7 @@ type Query {
 #     #post
 #     #upvote
 #     #downvote
+    # createuser(name: String!): User!
 # }
 
 type User {
@@ -20,6 +21,8 @@ type User {
     about: String!
     email: String!
     location: String!
+    firstName: String!
+    lastName: String!
     # expertise: [Expertise!]!
     guide: Boolean!
 }
