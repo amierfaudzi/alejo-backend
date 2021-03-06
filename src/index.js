@@ -1,5 +1,6 @@
 const { ApolloServer } = require('apollo-server');
 const fs = require('fs');
+const { argsToArgsConfig } = require('graphql/type/definition');
 const path = require('path');
 
 // Dummy users data
@@ -33,7 +34,11 @@ const resolvers = {
     Query: {
         info: () => "Hi",
         users: () => users,
-        guide: () => users.filter(user=>user.guide == true)
+        user: (parent, args) => {
+            let user = users.filter(data => data.id === args.id)
+            return user[0];
+        },
+        guide: () => users.filter(user=>user.guide == true),
     },
     // Resolvers for the User type
     User: {

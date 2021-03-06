@@ -14,5 +14,5 @@ async function guide(parent, args, context){
 }
 
 module.exports = {
-    guide,
+    guide
 }

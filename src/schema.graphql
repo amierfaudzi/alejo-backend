@@ -3,7 +3,7 @@
 type Query {
     info: String!
     users: [User!]!
-    # user(id: ID!): User
+    user(id: ID!): User
     guide: [User!]!
 }
 
