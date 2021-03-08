@@ -58,7 +58,7 @@ let users = [
 let questions = [
     {
         content: "Where is the best boba place in Toronto?",
-        userId: "123",
+        userId: "234",
         id: "zyx"
     }
 ]
@@ -66,8 +66,8 @@ let questions = [
 // Answer dummy data
 let answers = [
     {
-        content: "Chatatime on Dundas is pretty good",
-        userId: "234",
+        content: "Chatime on Dundas is pretty good",
+        userId: "123",
         questionId: "zyx",
         id: "mno"
     }
@@ -87,7 +87,9 @@ const resolvers = {
         },
         // Finding a guide
         guide: () => users.filter(user=>user.guide == true),
-        question: () => questions,
+        allQuestion: () => questions,
+        question: (parent,args) => questions.filter(question => question.id === args.id),
+        answer: (parent, args) => answers.filter(answer => answer.questionId === args.questionId),
     },
     // Resolvers for the mutation type
     Mutation: {
@@ -95,9 +97,17 @@ const resolvers = {
             let newQuestion = {};
             newQuestion.content = args.content;
             newQuestion.userId = args.userId;
-            console.log(newQuestion)
+            newQuestion.id = questions.length;
             questions.push(newQuestion);
             return newQuestion
+        },
+        addAnswer: (parent, args) => {
+            let newAnswer = {};
+            newAnswer.content = args.content;
+            newAnswer.questionId = args.questionId;
+            newAnswer.userId = args.userId;
+            answers.push(newAnswer);
+            return newAnswer;
         }
     },
     // // Resolvers for the User type
