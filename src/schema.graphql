@@ -5,6 +5,11 @@ type Query {
     users: [User!]!
     user(id: ID!): User
     guide: [User!]!
+    question: [Question!]!
+}
+
+type Mutation {
+    addQuestion(content: String!, userId: String!): Question!
 }
 
 # type Mutation {
@@ -13,6 +18,8 @@ type Query {
 #     #post
 #     #upvote
 #     #downvote
+#question
+#answer
     # createuser(name: String!): User!
 # }
 
@@ -23,28 +30,29 @@ type User {
     location: String!
     firstName: String!
     lastName: String!
-    # expertise: [Expertise!]!
+    expertise: [Expertise!]!
     guide: Boolean!
 }
 
-# # might be able to combine this with the user directly
-# type Expertise {
-#     title: String!
-#     rating: Number!
-#     user: User!
-# }
+# Expertise type
+type Expertise {
+    title: String!
+    rating: Int!
+    user: User!
+}
 
-# type Question {
-#     content: String!
-#     user: User!
-#     id: ID!
-# }
+type Question {
+    content: String!
+    user: User!
+    # id: ID!
+}
 
-# type Answer {
-#     content: String!
-#     user: User!
-#     id: ID!
-# }
+type Answer {
+    content: String!
+    user: User!
+    questionId: String!
+    id: ID!
+}
 
 # type UpVote {
 
