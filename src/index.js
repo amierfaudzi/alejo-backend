@@ -1,6 +1,25 @@
 const { ApolloServer } = require('apollo-server');
 const fs = require('fs');
 const path = require('path');
+const mongoose = require('mongoose');
+const Users = require('./models/users');
+
+require('dotenv').config();
+
+mongoose.connect(
+    `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.3ldhc.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`, 
+    {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useFindAndModify: false,
+        useCreateIndex: true
+      })
+    .then(() => {
+        console.log("Connected to MongoDB")
+    })
+    .catch(err => console.log(err))
+
+
 
 // Dummy users data
 let users = [
@@ -108,22 +127,20 @@ const resolvers = {
             newAnswer.userId = args.userId;
             answers.push(newAnswer);
             return newAnswer;
+        },
+        addUser: (parent, args) => {
+            let newUser = {};
+            newUser.firstName = args.firstName;
+            newUser.lastName = args.lastName;
+            newUser.email = args.email;
+            newUser.expertise = args.expertise;
+            newUser.about = args.about;
+            newUser.guide = args.guide;
+            newUser.location = args.location;
+            users.push(newUser);
+            return newUser;
         }
     },
-    // // Resolvers for the User type
-    // User: {
-    //     id: (parent) => parent.id,
-    //     firstName: (parent) => parent.firstName,
-    //     lastName: (parent) => parent.lastName,
-    //     email: (parent) => parent.email,
-    //     location: (parent) => parent.location,
-    //     guide: (parent) => parent.guide,
-    //     about: (parent) => parent.about
-    // },
-    // Question: {
-    //     content: (parent) => parent.content,
-    //     user: (parent) => parent.user
-    // }
 }
 
 const server = new ApolloServer({
@@ -136,7 +153,7 @@ const server = new ApolloServer({
 })
 
 server
-    .listen()
-    .then(({ url }) => {
-        console.log(`Server is running on ${url}`)
-    })
+.listen()
+.then(({ url }) => {
+    console.log(`Server is running on ${url}`)
+})

@@ -11,9 +11,20 @@ type Query {
     answer(questionId: ID!): [Answer!]!
 }
 
+input ExpertiseInput {
+    title: String!
+    rating: Int!
+}
+
+type Expertise {
+    title: String!
+    rating: Int!
+}
+
 type Mutation {
     addQuestion(content: String!, userId: ID!): Question!
     addAnswer(content: String!, userId: ID!, questionId: ID!): Answer!
+    addUser(firstName: String!, lastName: String!, email: String!, about: String!, guide: Boolean!, location: String!, expertise: [ExpertiseInput]): User!
 }
 
 # type Mutation {
@@ -36,13 +47,6 @@ type User {
     lastName: String!
     expertise: [Expertise!]!
     guide: Boolean!
-}
-
-# Expertise type
-type Expertise {
-    title: String!
-    rating: Int!
-    user: User!
 }
 
 type Question {
