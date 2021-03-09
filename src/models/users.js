@@ -11,6 +11,10 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
+    about: {
+        type: String,
+        required: true
+    },
     email : {
         type: String,
         required: true
@@ -25,7 +29,7 @@ const userSchema = new Schema({
     },
     expertise : {
         type: [String],
-        required: true
+        required: false
     },
 });
 

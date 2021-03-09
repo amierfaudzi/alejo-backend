@@ -19,8 +19,6 @@ mongoose.connect(
     })
     .catch(err => console.log(err))
 
-
-
 // Dummy users data
 let users = [
     {
@@ -129,16 +127,23 @@ const resolvers = {
             return newAnswer;
         },
         addUser: (parent, args) => {
-            let newUser = {};
-            newUser.firstName = args.firstName;
-            newUser.lastName = args.lastName;
-            newUser.email = args.email;
-            newUser.expertise = args.expertise;
-            newUser.about = args.about;
-            newUser.guide = args.guide;
-            newUser.location = args.location;
-            users.push(newUser);
-            return newUser;
+            let newUser = new Users({
+                firstName: args.firstName,
+                lastName: args.lastName,
+                email: args.email,
+                expertise: args.expertise,
+                about: args.about,
+                guide: args.guide,
+                location: args.location,
+            });
+            // users.push(newUser);
+            // return to make it async
+            return newUser.save()
+            .then(result=> {
+                console.log(result);
+                return {...result._doc}
+            })
+            .catch(err => console.log(err))
         }
     },
 }
