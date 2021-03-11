@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const mongoose = require('mongoose');
 const Users = require('./models/users');
+const { getUserId } = require('./utils');
 
 require('dotenv').config();
 
@@ -19,76 +20,7 @@ mongoose.connect(
     })
     .catch(err => console.log(err))
 
-// Dummy users data
-let users = [
-    {
-    "id": "123",
-    "firstName": "Abu",
-    "lastName": "Bakar",
-    "email": "abu.bakar@mail.com",
-    "location": "Toronto, Ontario",
-    "guide": true,
-    "expertise": [
-        {"general": 5},
-        {"location": 5},
-        {"job": 4}
-        ]
-    },
-    {
-        "id": "123a",
-        "firstName": "Adam",
-        "lastName": "Murad",
-        "email": "adam.murad@mail.com",
-        "location": "Toronto, Ontario",
-        "guide": true,
-        "expertise": [
-            {"general": 3},
-            {"location": 5},
-            {"job": 4}
-            ]
-        },
-        {
-            "id": "234a",
-            "firstName": "Zack",
-            "lastName": "Connor",
-            "email": "z.connor@mail.com",
-            "location": "Toronto, Ontario",
-            "guide": false,
-            "expertise": [
-                {"general": 4},
-                {"location": 4},
-                {"job": 4}
-                ]
-            },
-    {
-        "id": "234",
-        "firstName": "Ali",
-        "lastName": "Bob",
-        "email": "ali.bob@mail.com",
-        "location": "Montreal, Quebec",
-        "guide": false,
-        "expertise": []
-    }
-]
 
-// Question dummy data
-let questions = [
-    {
-        content: "Where is the best boba place in Toronto?",
-        userId: "234",
-        id: "zyx"
-    }
-]
-
-// Answer dummy data
-let answers = [
-    {
-        content: "Chatime on Dundas is pretty good",
-        userId: "123",
-        questionId: "zyx",
-        id: "mno"
-    }
-]
 
 // Actual implementation of the schema
 const resolvers = {
@@ -136,8 +68,6 @@ const resolvers = {
                 guide: args.userInput.guide,
                 location: args.userInput.location,
             });
-            // users.push(newUser);
-            // return to make it async
             return newUser.save()
             .then(result=> {
                 console.log(result);
@@ -155,6 +85,14 @@ const server = new ApolloServer({
         'utf-8'
     ),
     resolvers,
+    context: ({ req }) => {
+        return {
+            ...req,
+            userId:
+            req && req.headers.authorization ? 
+            getUserId(req) : null
+        }
+    }
 })
 
 server
@@ -162,3 +100,6 @@ server
 .then(({ url }) => {
     console.log(`Server is running on ${url}`)
 })
+
+
+// put the auth into context so that I dont have to do the middleware shenanigans
