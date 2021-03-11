@@ -128,13 +128,13 @@ const resolvers = {
         },
         addUser: (parent, args) => {
             let newUser = new Users({
-                firstName: args.firstName,
-                lastName: args.lastName,
-                email: args.email,
-                expertise: args.expertise,
-                about: args.about,
-                guide: args.guide,
-                location: args.location,
+                firstName: args.userInput.firstName,
+                lastName: args.userInput.lastName,
+                email: args.userInput.email,
+                expertise: args.userInput.expertise,
+                about: args.userInput.about,
+                guide: args.userInput.guide,
+                location: args.userInput.location,
             });
             // users.push(newUser);
             // return to make it async

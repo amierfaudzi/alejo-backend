@@ -1,34 +1,70 @@
-
-// Guide
-{
+// Dummy users data
+let users = [
     {
-        "id": "123",
-        "firstName": "Abu",
-        "lastName": "Bakar",
-        "about": "HI kjansdjkbmn hjasbjk qw",
-        "email": "abu.bakar@mail.com",
+    "id": "123",
+    "firstName": "Abu",
+    "lastName": "Bakar",
+    "email": "abu.bakar@mail.com",
+    "location": "Toronto, Ontario",
+    "guide": true,
+    "expertise": [
+        {"general": 5},
+        {"location": 5},
+        {"job": 4}
+        ]
+    },
+    {
+        "id": "123a",
+        "firstName": "Adam",
+        "lastName": "Murad",
+        "email": "adam.murad@mail.com",
         "location": "Toronto, Ontario",
         "guide": true,
-        "contact": "https://calendly.com/abu.bakar"
         "expertise": [
-            {"general": 5},
+            {"general": 3},
             {"location": 5},
             {"job": 4}
-        ]
-    }
-}
-// If the guide is true then create an expertise that can be traced to the user
-{
+            ]
+        },
+        {
+            "id": "234a",
+            "firstName": "Zack",
+            "lastName": "Connor",
+            "email": "z.connor@mail.com",
+            "location": "Toronto, Ontario",
+            "guide": false,
+            "expertise": [
+                {"general": 4},
+                {"location": 4},
+                {"job": 4}
+                ]
+            },
     {
-        "id": "123",
+        "id": "234",
         "firstName": "Ali",
         "lastName": "Bob",
-        "about": "Hello kjansdjkbmn hjasbjk qw",
         "email": "ali.bob@mail.com",
         "location": "Montreal, Quebec",
         "guide": false,
-        "expertise": [
-
-        ]
+        "expertise": []
     }
-}
+]
+
+// Question dummy data
+let questions = [
+    {
+        content: "Where is the best boba place in Toronto?",
+        userId: "234",
+        id: "zyx"
+    }
+]
+
+// Answer dummy data
+let answers = [
+    {
+        content: "Chatime on Dundas is pretty good",
+        userId: "123",
+        questionId: "zyx",
+        id: "mno"
+    }
+]
