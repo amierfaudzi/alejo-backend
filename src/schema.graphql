@@ -8,12 +8,13 @@ type Query {
     allQuestions: [Question!]!
     question(id: ID!): Question
     answers(questionId: ID!): [Answer!]!
+    login(loginInput: LoginInput): User
 }
 
 type Mutation {
-    addQuestion(content: String!, userId: ID!): Question!
-    addAnswer(content: String!, userId: ID!, questionId: ID!): Answer!
-    addUser(userInput: UserInput): User
+    addQuestion(questionInput: QuestionInput!): Question!
+    addAnswer(answerInput: AnswerInput!): Answer!
+    addUser(userInput: UserInput!): User
 }
 
 input UserInput {
@@ -24,6 +25,12 @@ input UserInput {
     guide: Boolean!
     about: String!
     location: String!
+    password: String!
+}
+
+input LoginInput {
+    email: String!
+    password: String!
 }
 
 type User {
@@ -35,6 +42,14 @@ type User {
     lastName: String!
     expertise: [String!]!
     guide: Boolean!
+    password: String!
+}
+
+input QuestionInput {
+    _id: ID!
+    content: String!
+    date: String!
+    creator: User!
 }
 
 type Question {
@@ -42,6 +57,14 @@ type Question {
     content: String!
     date: String!
     creator: User!
+}
+
+input AnswerInput {
+    _id: ID!
+    content: String!
+    creator: User!
+    date: String!
+    questionId: ID!
 }
 
 type Answer {
