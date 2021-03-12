@@ -6,13 +6,24 @@ const Questions = require('./models/questions');
 const Answers = require('./models/Answers');
 
 // Adding a question
-function addQuestion(parent, args){
-    let newQuestion = {};
-    newQuestion.content = args.content;
-    newQuestion.userId = args.userId;
-    newQuestion.id = questions.length;
-    questions.push(newQuestion);
-    return newQuestion
+async function addQuestion(parent, args, context){
+    const { userId } = context;
+    // A check to see if there is an authorized user with the request
+    if(userId){
+        throw new Error("Unauthenticated!");
+    }
+
+    try {
+        const newQuestion = new Questions({
+            content: args.questionInput.content,
+            creator: userId,
+        });
+
+        const result = await newQuestion.save();
+        return result;
+    } catch(err){
+        throw err
+    }
 }
 
 // Adding an answer
@@ -55,7 +66,7 @@ async function addUser(parent, args){
         });
 
         // Save the item on the database
-        const result = await Users.save();
+        const result = await newUser.save();
         console.log(result)
         return result;
     } catch(err){

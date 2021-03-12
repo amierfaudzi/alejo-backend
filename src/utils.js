@@ -5,7 +5,7 @@ function getTokenPayload(token){
     return jwt.verify(token, APP_SECRET);
 }
 
-function getUserId (req, authToken){
+function getUserId(req, authToken){
      if(req){
          const authHeader = req.headers.authorization;
          if(authHeader){
