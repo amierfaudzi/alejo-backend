@@ -1,9 +1,6 @@
-const { events } = require('../models/users');
 const Users = require('../models/users');
-
-function info () {
-    return "Hi"
-}
+const Questions = require('./models/questions');
+const Answers = require('./models/Answers');
 
 // Returning all users in the database
 async function users(){
@@ -46,9 +43,47 @@ async function guide(){
     }
 }
 
+// Return all the questions
+async function allQuestions(){
+    try {
+        const questions = await Questions.find();
+        return questions.map(question => {
+            console.log(question);
+            return question
+        })
+    } catch(err) {
+        throw err
+    }
+}
+
+// Return a specific question - maybe not needed
+async function question(parent, args,){
+    try {
+        const question = await Questions.findById(args.id);
+        console.log(question)
+        return question
+    } catch(err) {
+        throw err
+    }
+}
+
+// Return all the answers to a question
+async function answers(parent, args){
+    try {
+        // need to receive the question id
+        const answers = await Answers.findById(args.id);
+        console.log(answers)
+        return answers
+    } catch(err) {
+        throw err
+    }
+}
+
 module.exports = {
     guide,
-    info,
     users,
-    user
+    user,
+    allQuestions,
+    question,
+    answers
 }

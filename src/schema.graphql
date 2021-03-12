@@ -5,9 +5,9 @@ type Query {
     users: [User!]!
     user(id: ID!): User
     guide: [User!]!
-    allQuestion: [Question!]!
+    allQuestions: [Question!]!
     question(id: ID!): Question
-    answer(questionId: ID!): [Answer!]!
+    answers(questionId: ID!): [Answer!]!
 }
 
 type Mutation {

@@ -3,6 +3,8 @@ const fs = require('fs');
 const path = require('path');
 const mongoose = require('mongoose');
 const Users = require('./models/users');
+const Questions = require('./models/questions');
+const Answers = require('./models/Answers');
 const { getUserId } = require('./utils');
 const Query = require('./resolvers/Query');
 
@@ -10,22 +12,6 @@ require('dotenv').config();
 
 // Actual implementation of the schema
 const resolvers = {
-    // Query: {
-    //     // test endpoint
-    //     info: () => "Hi",
-    //     // Show all user
-    //     users: () => users,
-    //     // Finding a particular User/Viewing any user profile
-    //     user: (parent, args) => {
-    //         let user = users.filter(data => data.id === args.id)
-    //         return user[0];
-    //     },
-    //     // Finding a guide
-    //     guide: () => users.filter(user=>user.guide == true),
-    //     allQuestion: () => questions,
-    //     question: (parent,args) => questions.filter(question => question.id === args.id),
-    //     answer: (parent, args) => answers.filter(answer => answer.questionId === args.questionId),
-    // },
     Query,
     // Resolvers for the mutation type
     Mutation: {
