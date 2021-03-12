@@ -2,11 +2,9 @@ const { ApolloServer } = require('apollo-server');
 const fs = require('fs');
 const path = require('path');
 const mongoose = require('mongoose');
-const Users = require('./models/users');
-const Questions = require('./models/questions');
-const Answers = require('./models/Answers');
 const { getUserId } = require('./utils');
 const Query = require('./resolvers/Query');
+const Mutation = require('./resolvers/Mutation');
 
 require('dotenv').config();
 
@@ -14,43 +12,7 @@ require('dotenv').config();
 const resolvers = {
     Query,
     // Resolvers for the mutation type
-    Mutation: {
-        addQuestion: (parent, args) => {
-            let newQuestion = {};
-            newQuestion.content = args.content;
-            newQuestion.userId = args.userId;
-            newQuestion.id = questions.length;
-            questions.push(newQuestion);
-            return newQuestion
-        },
-        addAnswer: (parent, args) => {
-            let newAnswer = {};
-            newAnswer.content = args.content;
-            newAnswer.questionId = args.questionId;
-            newAnswer.userId = args.userId;
-            answers.push(newAnswer);
-            return newAnswer;
-        },
-        addUser: (parent, args) => {
-            // Create user object based on the database model
-            let newUser = new Users({
-                firstName: args.userInput.firstName,
-                lastName: args.userInput.lastName,
-                email: args.userInput.email,
-                expertise: args.userInput.expertise,
-                about: args.userInput.about,
-                guide: args.userInput.guide,
-                location: args.userInput.location,
-            });
-            // Save the item
-            return newUser.save()
-            .then(result=> {
-                console.log(result);
-                return {...result._doc};
-            })
-            .catch(err => console.log(err))
-        }
-    },
+    Mutation,
 }
 
 mongoose.connect(

@@ -8,7 +8,7 @@ const Answers = require('./models/Answers');
 // Adding a question
 async function addQuestion(parent, args, context){
     const { userId } = context;
-    // A check to see if there is an authorized user with the request
+    // Check to see if there is an authorized user with the request
     if(userId){
         throw new Error("Unauthenticated!");
     }
@@ -27,20 +27,24 @@ async function addQuestion(parent, args, context){
 }
 
 // Adding an answer
-function addAnswer(parent, args) {
-    let newAnswer = new Answers({
-        content: args.answerInput.content,
-        questionId: args.answerInput.questionId,
-        creator: args.answerInput.userId,
-        date: args.answerInput.date // ISO date to string maybe
-    });
+async function addAnswer(parent, args, context) {
+    const { userId } = context;
+    // Check to see if there is an authorized user with the request
+    if(userId){
+        throw new Error("Unauthenticated!");
+    }
 
-    return newAnswer.save()
-    .then(result=> {
-        console.log(result);
-        return {...result._doc};
-    })
-    .catch(err => console.log(err))
+    try {
+        const newAnswer = new Answers({
+            content: args.answerInput.content,
+            creator: userId,
+            questionId: args.answerInput.questionId
+        })
+        const result = await newAnswer.save();
+        return result;
+    } catch(err) {
+        throw err
+    }
 }
 
 // Adding a user
@@ -68,7 +72,7 @@ async function addUser(parent, args){
         // Save the item on the database
         const result = await newUser.save();
         console.log(result)
-        return result;
+        return {...result, password: null};
     } catch(err){
         throw err
     }
