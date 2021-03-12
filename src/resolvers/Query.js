@@ -1,10 +1,6 @@
 const { events } = require('../models/users');
 const Users = require('../models/users');
 
-async function guide(parent, args, context){
-
-}
-
 function info () {
     return "Hi"
 }
@@ -30,6 +26,23 @@ async function user(parent, args,){
         return user
     } catch(err) {
         throw err
+    }
+}
+
+// Returns all the guides in the database
+async function guide(){
+    try {
+        const users = await Users.find();
+        return users.map(user => {
+            console.log(user);
+            if(user.guide === true){
+                return user
+            } else {
+                return ''
+            }
+        })
+    } catch(err) {
+        throw err;
     }
 }
 

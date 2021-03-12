@@ -10,6 +10,12 @@ type Query {
     answer(questionId: ID!): [Answer!]!
 }
 
+type Mutation {
+    addQuestion(content: String!, userId: ID!): Question!
+    addAnswer(content: String!, userId: ID!, questionId: ID!): Answer!
+    addUser(userInput: UserInput): User
+}
+
 input UserInput {
     firstName: String!
     lastName: String!
@@ -21,7 +27,7 @@ input UserInput {
 }
 
 type User {
-    id: ID!
+    _id: ID!
     about: String!
     email: String!
     location: String!
@@ -31,23 +37,19 @@ type User {
     guide: Boolean!
 }
 
-type Mutation {
-    addQuestion(content: String!, userId: ID!): Question!
-    addAnswer(content: String!, userId: ID!, questionId: ID!): Answer!
-    addUser(userInput: UserInput): User
-}
-
 type Question {
+    _id: ID!
     content: String!
-    user: User!
-    id: ID!
+    date: String!
+    creator: User!
 }
 
 type Answer {
+    _id: ID!
     content: String!
-    userId: ID!
+    creator: User!
+    date: String!
     questionId: ID!
-    id: ID!
 }
 
 # type UpVote {
