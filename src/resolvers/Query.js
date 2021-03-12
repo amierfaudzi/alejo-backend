@@ -1,6 +1,35 @@
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const { APP_SECRET, getUserId } = require('../utils');
+
 const Users = require('../models/users');
 const Questions = require('./models/questions');
 const Answers = require('./models/Answers');
+
+// Log In a user
+async function login(parent, args, context){
+    
+    try {
+        const user = await Users.findOne({email: args.loginInput.email});
+        if(!user){
+            throw new Error("No such user exists")
+        }
+        const isEqual = await bcrypt.compare(args.loginInput.password, user.password);
+
+        if(!isEqual){
+            throw new Error("Incorrect Password");
+        }
+
+        const token = jwt.sign({userId: newUser.id}, APP_SECRET);
+        return {
+            user,
+            token
+        }
+
+    } catch(err){
+        throw err
+    }
+}
 
 // Returning all users in the database
 async function users(){

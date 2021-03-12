@@ -11,7 +11,6 @@ require('dotenv').config();
 // Actual implementation of the schema
 const resolvers = {
     Query,
-    // Resolvers for the mutation type
     Mutation,
 }
 
@@ -41,6 +40,7 @@ mongoose.connect(
             }
         })
         
+        // Starting Apollo-Server
         server
         .listen()
         .then(({ url }) => {
@@ -49,5 +49,3 @@ mongoose.connect(
         console.log("Connected to MongoDB")
     })
     .catch(err => console.log(err))
-
-// put the auth into context so that I dont have to do the middleware shenanigans

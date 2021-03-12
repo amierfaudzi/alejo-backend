@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { APP_SECRET, getUserId } = require('../utils');
 
 const Users = require('../models/users');
 const Questions = require('./models/questions');
@@ -68,11 +69,16 @@ async function addUser(parent, args){
             location: args.userInput.location,
             password: hashedPassword
         });
-
+        // Creating a JWToken
+        const token = jwt.sign({userId: newUser.id}, APP_SECRET);
         // Save the item on the database
         const result = await newUser.save();
         console.log(result)
-        return {...result, password: null};
+        result = {...result, password: null}
+        return {
+            result,
+            token
+        };
     } catch(err){
         throw err
     }
