@@ -10,11 +10,6 @@ type Query {
     answer(questionId: ID!): [Answer!]!
 }
 
-# input ExpertiseInput {
-#     title: String!
-#     rating: Int!
-# }
-
 input UserInput {
     firstName: String!
     lastName: String!
@@ -25,28 +20,6 @@ input UserInput {
     location: String!
 }
 
-# type Expertise {
-#     title: String!
-#     rating: Int!
-# }
-
-type Mutation {
-    addQuestion(content: String!, userId: ID!): Question!
-    addAnswer(content: String!, userId: ID!, questionId: ID!): Answer!
-    addUser(userInput: UserInput): User
-}
-
-# type Mutation {
-#     #signup
-#     #signin
-#     #post
-#     #upvote
-#     #downvote
-#question
-#answer
-    # createuser(name: String!): User!
-# }
-
 type User {
     id: ID!
     about: String!
@@ -56,6 +29,12 @@ type User {
     lastName: String!
     expertise: [String!]!
     guide: Boolean!
+}
+
+type Mutation {
+    addQuestion(content: String!, userId: ID!): Question!
+    addAnswer(content: String!, userId: ID!, questionId: ID!): Answer!
+    addUser(userInput: UserInput): User
 }
 
 type Question {

@@ -1,18 +1,41 @@
+const { events } = require('../models/users');
+const Users = require('../models/users');
+
 async function guide(parent, args, context){
-    const where = args.filter ? {
-        OR: [
-            {expertise: { contains: args.filter}}
-        ]
-    } : {}
 
-    // Get the data from the database here
-    const guides = "Hi"
+}
 
-    return {
-        guides
+function info () {
+    return "Hi"
+}
+
+// Returning all users in the database
+async function users(){
+    try {
+        const users = await Users.find();
+        return users.map(user => {
+            console.log(user)
+            return user
+        })
+    } catch(err) {
+        throw err;
+    }
+}
+
+// Returning a specific user by using their id
+async function user(parent, args,){
+    try {
+        const user = await Users.findById(args.id);
+        console.log(user)
+        return user
+    } catch(err) {
+        throw err
     }
 }
 
 module.exports = {
-    guide
+    guide,
+    info,
+    users,
+    user
 }
