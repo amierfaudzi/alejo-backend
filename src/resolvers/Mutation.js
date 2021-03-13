@@ -3,8 +3,8 @@ const jwt = require('jsonwebtoken');
 const { APP_SECRET, getUserId } = require('../utils');
 
 const Users = require('../models/users');
-const Questions = require('./models/questions');
-const Answers = require('./models/Answers');
+const Question = require('../models/questions');
+const Answer = require('../models/answers');
 
 // Adding a question
 async function addQuestion(parent, args, context){
@@ -15,7 +15,7 @@ async function addQuestion(parent, args, context){
     }
 
     try {
-        const newQuestion = new Questions({
+        const newQuestion = new Question({
             content: args.questionInput.content,
             creator: userId,
         });
@@ -36,7 +36,7 @@ async function addAnswer(parent, args, context) {
     }
 
     try {
-        const newAnswer = new Answers({
+        const newAnswer = new Answer({
             content: args.answerInput.content,
             creator: userId,
             questionId: args.answerInput.questionId
@@ -52,7 +52,7 @@ async function addAnswer(parent, args, context) {
 async function addUser(parent, args){
 
     try {
-        const existingUser = await User.findOne({ email: args.userInput.email});
+        const existingUser = await Users.findOne({ email: args.userInput.email});
         if(existingUser){
             throw new Error("User exist already.");
         }
@@ -72,10 +72,12 @@ async function addUser(parent, args){
         // Creating a JWToken
         const token = jwt.sign({userId: newUser.id}, APP_SECRET);
         // Save the item on the database
-        const result = await newUser.save();
+        let result = await newUser.save();
+        // Clearing the password for security
+        result.password = null;
         console.log(result)
-        result = {...result, password: null}
         return {
+            // Bug here with result showing as null on gql playground
             result,
             token
         };

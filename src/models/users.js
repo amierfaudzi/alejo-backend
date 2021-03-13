@@ -31,6 +31,10 @@ const userSchema = new Schema({
         type: [String],
         required: false
     },
+    password: {
+        type: String,
+        required: true
+    }
 });
 
 // Name of the model and the schema

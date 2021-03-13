@@ -3,8 +3,8 @@ const jwt = require('jsonwebtoken');
 const { APP_SECRET, getUserId } = require('../utils');
 
 const Users = require('../models/users');
-const Questions = require('./models/questions');
-const Answers = require('./models/Answers');
+const Questions = require('../models/questions');
+const Answers = require('../models/answers');
 
 // Log In a user
 async function login(parent, args, context){
@@ -114,5 +114,6 @@ module.exports = {
     user,
     allQuestions,
     question,
-    answers
+    answers,
+    login
 }

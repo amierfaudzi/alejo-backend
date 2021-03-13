@@ -14,7 +14,7 @@ type Query {
 type Mutation {
     addQuestion(questionInput: QuestionInput!): Question!
     addAnswer(answerInput: AnswerInput!): Answer!
-    addUser(userInput: UserInput!): User
+    addUser(userInput: UserInput!): AuthPayload
 }
 
 input UserInput {
@@ -46,10 +46,9 @@ type User {
 }
 
 input QuestionInput {
-    _id: ID!
     content: String!
     date: String!
-    creator: User!
+    creator: ID!
 }
 
 type Question {
@@ -60,9 +59,8 @@ type Question {
 }
 
 input AnswerInput {
-    _id: ID!
     content: String!
-    creator: User!
+    creator: ID!
     date: String!
     questionId: ID!
 }
@@ -73,6 +71,11 @@ type Answer {
     creator: User!
     date: String!
     questionId: ID!
+}
+
+type AuthPayload {
+    token: String
+    user: User
 }
 
 # type UpVote {
