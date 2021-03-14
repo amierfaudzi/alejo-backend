@@ -6,6 +6,7 @@ type Query {
     guide: [User]
     allQuestions: [Question!]!
     question(id: ID!): Question
+    userQuestions: [Question!]!
     answers(questionId: ID!): [Answer!]!
     login(loginInput: LoginInput): AuthPayload
 }

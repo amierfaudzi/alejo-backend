@@ -84,6 +84,30 @@ async function allQuestions(){
     }
 }
 
+// Returning all question for a single user
+async function userQuestions(parent, args, context){
+    const { userId } = context;
+    // Check to see if there is an authorized user with the request
+    if(!userId){
+        throw new Error("Unauthenticated!");
+    }
+
+    try {
+        const questions = await Questions.find();
+        let results = [];
+        questions.map(question => {
+            if(question.creator == userId){
+                console.log(question)
+                results.push(question)
+            }
+        })
+
+        return results || [];
+    } catch(err) {
+        throw err
+    }
+}
+
 // Return a specific question - maybe not needed
 async function question(parent, args,){
     try {
@@ -114,5 +138,6 @@ module.exports = {
     allQuestions,
     question,
     answers,
-    login
+    login,
+    userQuestions
 }

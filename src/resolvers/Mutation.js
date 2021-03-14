@@ -9,9 +9,8 @@ const Answer = require('../models/answers');
 // Adding a question
 async function addQuestion(parent, args, context){
     const { userId } = context;
-    console.log(userId);
     // Check to see if there is an authorized user with the request
-    if(userId){
+    if(!userId){
         throw new Error("Unauthenticated!");
     }
 
@@ -19,6 +18,7 @@ async function addQuestion(parent, args, context){
         const newQuestion = new Question({
             content: args.questionInput.content,
             creator: userId,
+            date: new Date()
         });
 
         const result = await newQuestion.save();
@@ -32,7 +32,7 @@ async function addQuestion(parent, args, context){
 async function addAnswer(parent, args, context) {
     const { userId } = context;
     // Check to see if there is an authorized user with the request
-    if(userId){
+    if(!userId){
         throw new Error("Unauthenticated!");
     }
 
@@ -40,7 +40,8 @@ async function addAnswer(parent, args, context) {
         const newAnswer = new Answer({
             content: args.answerInput.content,
             creator: userId,
-            questionId: args.answerInput.questionId
+            questionId: args.answerInput.questionId,
+            date: new Date()
         })
         const result = await newAnswer.save();
         return result;
