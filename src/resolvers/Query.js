@@ -131,6 +131,29 @@ async function answers(parent, args){
     }
 }
 
+// Return all the answers a user had
+async function userAnswers(parent, args, context){
+    const { userId } = context;
+    if(!userId){
+        throw new Error("Unauthenticated!");
+    }
+
+    try {
+        const answers = await Answers.find();
+        let results = [];
+        answers.map(answer => {
+            if(answer.creator == userId){
+                console.log(answer)
+                results.push(answer)
+            }
+        })
+
+        return results || [];
+    } catch(err){
+        throw err
+    }
+}
+
 module.exports = {
     guide,
     users,
@@ -139,5 +162,6 @@ module.exports = {
     question,
     answers,
     login,
-    userQuestions
+    userQuestions,
+    userAnswers
 }
