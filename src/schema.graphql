@@ -47,7 +47,6 @@ type User {
 
 input QuestionInput {
     content: String!
-    date: String!
 }
 
 type Question {
@@ -59,8 +58,6 @@ type Question {
 
 input AnswerInput {
     content: String!
-    creator: ID!
-    date: String!
     questionId: ID!
 }
 
