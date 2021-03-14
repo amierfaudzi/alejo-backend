@@ -20,7 +20,8 @@ async function login(parent, args, context){
             throw new Error("Incorrect Password");
         }
 
-        const token = jwt.sign({userId: newUser.id}, APP_SECRET);
+        const token = jwt.sign({userId: user.id}, APP_SECRET);
+
         return {
             user,
             token
@@ -60,11 +61,9 @@ async function guide(){
     try {
         const users = await Users.find();
         return users.map(user => {
-            console.log(user);
             if(user.guide === true){
+                console.log(user);
                 return user
-            } else {
-                return ''
             }
         })
     } catch(err) {

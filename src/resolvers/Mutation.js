@@ -9,6 +9,7 @@ const Answer = require('../models/answers');
 // Adding a question
 async function addQuestion(parent, args, context){
     const { userId } = context;
+    console.log(userId);
     // Check to see if there is an authorized user with the request
     if(userId){
         throw new Error("Unauthenticated!");

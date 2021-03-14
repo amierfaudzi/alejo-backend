@@ -1,14 +1,13 @@
 # Three root types - Query, Mutation, Subscription
 
 type Query {
-    info: String!
     users: [User!]!
     user(id: ID!): User
-    guide: [User!]!
+    guide: [User]
     allQuestions: [Question!]!
     question(id: ID!): Question
     answers(questionId: ID!): [Answer!]!
-    login(loginInput: LoginInput): User
+    login(loginInput: LoginInput): AuthPayload
 }
 
 type Mutation {
@@ -48,7 +47,6 @@ type User {
 input QuestionInput {
     content: String!
     date: String!
-    creator: ID!
 }
 
 type Question {
