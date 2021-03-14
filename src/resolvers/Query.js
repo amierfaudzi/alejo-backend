@@ -60,12 +60,13 @@ async function user(parent, args,){
 async function guide(){
     try {
         const users = await Users.find();
-        return users.map(user => {
+        let results = [];
+        users.map(user => {
             if(user.guide === true){
-                console.log(user);
-                return user
+                results.push(user)
             }
         })
+        return results;
     } catch(err) {
         throw err;
     }

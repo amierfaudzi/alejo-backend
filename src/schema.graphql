@@ -1,9 +1,10 @@
 # Three root types - Query, Mutation, Subscription
 
+# Main Query types
 type Query {
     users: [User!]!
     user(id: ID!): User
-    guide: [User]
+    guide: [User!]!
     allQuestions: [Question!]!
     question(id: ID!): Question
     userQuestions: [Question!]!
@@ -12,6 +13,7 @@ type Query {
     login(loginInput: LoginInput): AuthPayload
 }
 
+# Main Mutation types
 type Mutation {
     addQuestion(questionInput: QuestionInput!): Question!
     addAnswer(answerInput: AnswerInput!): Answer!
