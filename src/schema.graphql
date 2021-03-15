@@ -10,7 +10,7 @@ type Query {
     userQuestions: [Question!]!
     userAnswers: [Answer!]!
     answers(questionId: ID!): [Answer!]!
-    login(loginInput: LoginInput): AuthPayload
+    login(loginInput: LoginInput!): AuthPayload
 }
 
 # Main Mutation types
