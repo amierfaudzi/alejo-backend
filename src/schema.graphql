@@ -18,6 +18,25 @@ type Mutation {
     addQuestion(questionInput: QuestionInput!): Question!
     addAnswer(answerInput: AnswerInput!): Answer!
     addUser(userInput: UserInput!): AuthPayload
+    # new and improved login flow
+    signup(signupInput: SignupInput!): AuthPayload
+    addUserInfo(userInfoInput: UserInfoInput): User
+}
+
+input SignupInput {
+    firstName: String!
+    lastName: String!
+    email: String!
+    password: String
+}
+
+input UserInfoInput {
+    expertise: [String]!
+    guide: Boolean!
+    about: String!
+    location: String!
+    calendly: String!
+    quote: String!
 }
 
 input UserInput {
@@ -46,6 +65,8 @@ type User {
     expertise: [String!]!
     guide: Boolean!
     password: String
+    calendly: String!
+    quote: String!
 }
 
 input QuestionInput {
