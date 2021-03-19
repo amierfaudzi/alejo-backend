@@ -4,9 +4,9 @@ const { APP_SECRET, getUserId } = require('../utils');
 
 const Users = require('../models/users');
 const Users2 = require('../models/users2');
+const UserInfo = require('../models/userInfo');
 const Question = require('../models/questions');
 const Answer = require('../models/answers');
-const { user } = require('./Query');
 
 // Adding a question
 async function addQuestion(parent, args, context){
@@ -136,34 +136,45 @@ async function addUserInfo(parent, args, context){
         if(!userId){
             throw new Error("Unauthenticated!");
         }
+        
     try{
-        let existingUser = await Users2.findById(userId);
-        if(!existingUser){
-            throw new Error("No such user exist");
+
+        let existingUserInfo = await UserInfo.findOne({creator: userId});
+
+        if(!existingUserInfo){
+            const userInfo = new UserInfo({
+                expertise: args.userInfoInput.expertise,
+                about: args.userInfoInput.about,
+                guide: args.userInfoInput.guide,
+                location: args.userInfoInput.location,
+                quote: args.userInfoInput.quote,
+                calendly: args.userInfoInput.calendly,
+                creator: userId
+            })
+            // How to update if already created?
+            let result = await userInfo.save();
+            console.log(result)
+            return result;
+        } else {
+            existingUserInfo.overwrite({
+                expertise: args.userInfoInput.expertise,
+                about: args.userInfoInput.about,
+                guide: args.userInfoInput.guide,
+                location: args.userInfoInput.location,
+                quote: args.userInfoInput.quote,
+                calendly: args.userInfoInput.calendly,
+                creator: userId
+            });
+            await existingUserInfo.save();
+            return existingUserInfo;
         }
 
-        console.log("This is the existing user", existingUser)
-
-        existingUser = ({
-            ...existingUser,
-            quote: "To be or not to be"
-        })
-
-        console.log("This is the existingUser", existingUser)
-
-        const result = await existingUser.save();
-
-        return result
-
-            // Check if the user is authorized
-            // Create the new object
-            // Add it to the existing user profile/information
-            // Return the new information
     }catch(err){
         throw err
     }
 }
 
+// Sign in - might be redundant
 async function signin(parent, args){
 
     try {
@@ -189,8 +200,8 @@ async function signin(parent, args){
     }
 }
 
-// Login mutation as well
-async function login(parent, args, context){
+// Login mutation
+async function login(parent, args){
     try {
         const user = await Users2.findOne({email: args.loginInput.email});
         if(!user){

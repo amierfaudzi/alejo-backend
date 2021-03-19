@@ -3,39 +3,14 @@ const jwt = require('jsonwebtoken');
 const { APP_SECRET, getUserId } = require('../utils');
 
 const Users = require('../models/users');
+const Users2 = require('../models/users2');
 const Questions = require('../models/questions');
 const Answers = require('../models/answers');
-
-// // Log In a user
-// async function login(parent, args, context){
-    
-//     try {
-//         const user = await Users.findOne({email: args.loginInput.email});
-//         if(!user){
-//             throw new Error("No such user exists")
-//         }
-//         const isEqual = await bcrypt.compare(args.loginInput.password, user.password);
-
-//         if(!isEqual){
-//             throw new Error("Incorrect Password");
-//         }
-
-//         const token = jwt.sign({userId: user.id}, APP_SECRET);
-
-//         return {
-//             user,
-//             token
-//         }
-
-//     } catch(err){
-//         throw err
-//     }
-// }
 
 // Returning all users in the database
 async function users(){
     try {
-        const users = await Users.find();
+        const users = await Users2.find();
         return users.map(user => {
             console.log(user)
             return user
@@ -48,7 +23,7 @@ async function users(){
 // Returning a specific user by using their id
 async function user(parent, args,){
     try {
-        const user = await Users.findById(args.id);
+        const user = await Users2.findById(args.id);
         console.log(user)
         return user
     } catch(err) {

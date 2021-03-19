@@ -21,8 +21,8 @@ type Mutation {
     # new and improved login flow
     signup(signupInput: SignupInput!): AuthPayload
     signin(loginInput: LoginInput!): AuthPayload
-    addUserInfo(userInfoInput: UserInfoInput): User
-    login(loginInput: LoginInput!): AuthPayload
+    addUserInfo(userInfoInput: UserInfoInput): UserInfo
+    login(loginInput: LoginInput!): AuthPayload2
 }
 
 input SignupInput {
@@ -33,6 +33,17 @@ input SignupInput {
 }
 
 input UserInfoInput {
+    expertise: [String]!
+    guide: Boolean!
+    about: String!
+    location: String!
+    calendly: String!
+    quote: String!
+}
+
+type UserInfo {
+    _id: ID!
+    creator: String!
     expertise: [String]!
     guide: Boolean!
     about: String!
@@ -71,6 +82,14 @@ type User {
     quote: String!
 }
 
+type User2 {
+    _id: ID!
+    email: String!
+    firstName: String!
+    lastName: String!
+    password: String
+}
+
 input QuestionInput {
     content: String!
 }
@@ -97,7 +116,12 @@ type Answer {
 
 type AuthPayload {
     token: String
-    user: User!
+    user: User
+}
+
+type AuthPayload2 {
+    token: String
+    user: User2
 }
 
 # type UpVote {
