@@ -3,7 +3,7 @@
 # Main Query types
 type Query {
     users: [User!]!
-    user(id: ID!): User
+    user(id: ID!): User2
     guide: [User!]!
     allQuestions: [Question!]!
     question(id: ID!): Question
@@ -11,6 +11,7 @@ type Query {
     userAnswers: [Answer!]!
     answers(questionId: ID!): [Answer!]!
     #login(loginInput: LoginInput!): AuthPayload
+    userInfo(creatorId: ID!): UserInfo
 }
 
 # Main Mutation types

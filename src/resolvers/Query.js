@@ -6,6 +6,7 @@ const Users = require('../models/users');
 const Users2 = require('../models/users2');
 const Questions = require('../models/questions');
 const Answers = require('../models/answers');
+const UserInfo = require('../models/userInfo');
 
 // Returning all users in the database
 async function users(){
@@ -34,7 +35,7 @@ async function user(parent, args,){
 // Returns all the guides in the database
 async function guide(){
     try {
-        const users = await Users.find();
+        const users = await Users2.find();
         let results = [];
         users.map(user => {
             if(user.guide === true){
@@ -130,6 +131,18 @@ async function userAnswers(parent, args, context){
     }
 }
 
+async function userInfo(parent, args){
+
+    try{
+        const result = await UserInfo.findOne({creator: args.creatorId});
+
+        return result;
+
+    } catch(err){
+        throw err
+    }
+}
+
 module.exports = {
     guide,
     users,
@@ -139,5 +152,6 @@ module.exports = {
     answers,
     // login,
     userQuestions,
-    userAnswers
+    userAnswers,
+    userInfo
 }
