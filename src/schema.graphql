@@ -10,7 +10,7 @@ type Query {
     userQuestions: [Question!]!
     userAnswers: [Answer!]!
     answers(questionId: ID!): [Answer!]!
-    login(loginInput: LoginInput!): AuthPayload
+    #login(loginInput: LoginInput!): AuthPayload
 }
 
 # Main Mutation types
@@ -20,7 +20,9 @@ type Mutation {
     addUser(userInput: UserInput!): AuthPayload
     # new and improved login flow
     signup(signupInput: SignupInput!): AuthPayload
+    signin(loginInput: LoginInput!): AuthPayload
     addUserInfo(userInfoInput: UserInfoInput): User
+    login(loginInput: LoginInput!): AuthPayload
 }
 
 input SignupInput {
@@ -95,7 +97,7 @@ type Answer {
 
 type AuthPayload {
     token: String
-    user: User
+    user: User!
 }
 
 # type UpVote {

@@ -6,31 +6,31 @@ const Users = require('../models/users');
 const Questions = require('../models/questions');
 const Answers = require('../models/answers');
 
-// Log In a user
-async function login(parent, args, context){
+// // Log In a user
+// async function login(parent, args, context){
     
-    try {
-        const user = await Users.findOne({email: args.loginInput.email});
-        if(!user){
-            throw new Error("No such user exists")
-        }
-        const isEqual = await bcrypt.compare(args.loginInput.password, user.password);
+//     try {
+//         const user = await Users.findOne({email: args.loginInput.email});
+//         if(!user){
+//             throw new Error("No such user exists")
+//         }
+//         const isEqual = await bcrypt.compare(args.loginInput.password, user.password);
 
-        if(!isEqual){
-            throw new Error("Incorrect Password");
-        }
+//         if(!isEqual){
+//             throw new Error("Incorrect Password");
+//         }
 
-        const token = jwt.sign({userId: user.id}, APP_SECRET);
+//         const token = jwt.sign({userId: user.id}, APP_SECRET);
 
-        return {
-            user,
-            token
-        }
+//         return {
+//             user,
+//             token
+//         }
 
-    } catch(err){
-        throw err
-    }
-}
+//     } catch(err){
+//         throw err
+//     }
+// }
 
 // Returning all users in the database
 async function users(){
@@ -162,7 +162,7 @@ module.exports = {
     allQuestions,
     question,
     answers,
-    login,
+    // login,
     userQuestions,
     userAnswers
 }

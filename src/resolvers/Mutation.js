@@ -6,6 +6,7 @@ const Users = require('../models/users');
 const Users2 = require('../models/users2');
 const Question = require('../models/questions');
 const Answer = require('../models/answers');
+const { user } = require('./Query');
 
 // Adding a question
 async function addQuestion(parent, args, context){
@@ -91,6 +92,7 @@ async function addUser(parent, args){
     }
 }
 
+// Alternative signup mutation
 async function signup(parent, args){
     try {
         const existingUser = await Users2.findOne({ email: args.signupInput.email});
@@ -113,20 +115,112 @@ async function signup(parent, args){
         let result = await newUser.save();
         // Clearing the password for security
         result.password = null;
-        console.log(result)
+        console.log(result);
         return {
             // Bug here with result showing as null on gql playground
-            result,
-            token
+            // skip it?
+            token,
+            result
         };
     } catch(err){
         throw err
     }
 }
 
+// Add user info
+async function addUserInfo(parent, args, context){
+
+    const { userId } = context;
+    console.log(userId)
+        // Check to see if there is an authorized user with the request
+        if(!userId){
+            throw new Error("Unauthenticated!");
+        }
+    try{
+        let existingUser = await Users2.findById(userId);
+        if(!existingUser){
+            throw new Error("No such user exist");
+        }
+
+        console.log("This is the existing user", existingUser)
+
+        existingUser = ({
+            ...existingUser,
+            quote: "To be or not to be"
+        })
+
+        console.log("This is the existingUser", existingUser)
+
+        const result = await existingUser.save();
+
+        return result
+
+            // Check if the user is authorized
+            // Create the new object
+            // Add it to the existing user profile/information
+            // Return the new information
+    }catch(err){
+        throw err
+    }
+}
+
+async function signin(parent, args){
+
+    try {
+        const user = await Users2.findOne({email: args.loginInput.email});
+        if(!user){
+            throw new Error("No such user exists")
+        }
+        const isEqual = await bcrypt.compare(args.loginInput.password, user.password);
+
+        if(!isEqual){
+            throw new Error("Incorrect Password");
+        }
+
+        const token = jwt.sign({userId: user.id}, APP_SECRET);
+
+        return {
+            user,
+            token
+        }
+
+    } catch(err){
+        throw err
+    }
+}
+
+// Login mutation as well
+async function login(parent, args, context){
+    try {
+        const user = await Users2.findOne({email: args.loginInput.email});
+        if(!user){
+            throw new Error("No such user exists")
+        }
+        const isEqual = await bcrypt.compare(args.loginInput.password, user.password);
+
+        if(!isEqual){
+            throw new Error("Incorrect Password");
+        }
+
+        const token = jwt.sign({userId: user.id}, APP_SECRET);
+
+        return {
+            user,
+            token
+        }
+
+    } catch(err){
+        throw err
+    }
+
+}
+
 module.exports = {
     addUser,
     addQuestion,
     addAnswer,
-    signup
+    signup,
+    addUserInfo,
+    signin,
+    login
 }
