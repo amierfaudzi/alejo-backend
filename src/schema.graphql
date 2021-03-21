@@ -12,6 +12,7 @@ type Query {
     answers(questionId: ID!): [Answer!]!
     #login(loginInput: LoginInput!): AuthPayload
     userInfo(creatorId: ID!): UserInfo
+    superUser(id: ID!): SuperUser
 }
 
 # Main Mutation types
@@ -123,6 +124,19 @@ type AuthPayload {
 type AuthPayload2 {
     token: String
     user: User2
+}
+
+type SuperUser {
+    _id: ID!
+    email: String!
+    firstName: String!
+    lastName: String!
+    expertise: [String]!
+    guide: Boolean!
+    about: String!
+    location: String!
+    calendly: String!
+    quote: String!
 }
 
 # type UpVote {

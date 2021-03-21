@@ -19,7 +19,7 @@ async function addQuestion(parent, args, context){
     try {
         const newQuestion = new Question({
             content: args.questionInput.content,
-            creator: userId,
+            creator: userId, // should be the full user object
             date: new Date()
         });
 

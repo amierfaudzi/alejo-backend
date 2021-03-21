@@ -143,6 +143,36 @@ async function userInfo(parent, args){
     }
 }
 
+async function superUser(parent, args) {
+    
+    try{
+
+        const basicInfo = await Users2.findById(args.id);
+        console.log("basic Info", basicInfo)
+
+        const additionalInfo = await UserInfo.findOne({creator: args.id});
+        console.log("additional info", additionalInfo)
+        
+        let superUser = {
+            _id: basicInfo._id,
+            email: basicInfo.email,
+            firstName: basicInfo.firstName,
+            lastName: basicInfo.lastName,
+            expertise: additionalInfo.expertise,
+            guide: additionalInfo.guide,
+            about: additionalInfo.about,
+            location: additionalInfo.location,
+            calendly: additionalInfo.calendly,
+            quote: additionalInfo.quote,
+        };
+
+        return superUser
+        
+    } catch(err){
+        throw err
+    }
+}
+
 module.exports = {
     guide,
     users,
@@ -150,8 +180,8 @@ module.exports = {
     allQuestions,
     question,
     answers,
-    // login,
     userQuestions,
     userAnswers,
-    userInfo
+    userInfo,
+    superUser
 }
