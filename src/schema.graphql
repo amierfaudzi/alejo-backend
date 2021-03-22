@@ -21,7 +21,7 @@ type Mutation {
     addAnswer(answerInput: AnswerInput!): Answer!
     addUser(userInput: UserInput!): AuthPayload
     # new and improved login flow
-    signup(signupInput: SignupInput!): AuthPayload
+    signup(signupInput: SignupInput!): AuthPayload2
     signin(loginInput: LoginInput!): AuthPayload
     addUserInfo(userInfoInput: UserInfoInput): UserInfo
     login(loginInput: LoginInput!): AuthPayload2

@@ -140,7 +140,7 @@ async function addUserInfo(parent, args, context){
     try{
 
         let existingUserInfo = await UserInfo.findOne({creator: userId});
-
+        
         if(!existingUserInfo){
             const userInfo = new UserInfo({
                 expertise: args.userInfoInput.expertise,
