@@ -108,19 +108,27 @@ async function signup(parent, args){
             email: args.signupInput.email,
             password: hashedPassword,
         });
-        console.log(newUser)
         // Creating a JWToken
         const token = jwt.sign({userId: newUser.id}, APP_SECRET);
         // Save the item on the database
-        let result = await newUser.save();
+        newUser.password = null;
+        await newUser.save();
+        let result = {
+            firstName: newUser.firstName,
+            lastName: newUser.lastName,
+            email: newUser.email,
+            password: null,
+        }
+        console.log("this is the newUser",newUser, "This is the result", result)
         // Clearing the password for security
-        result.password = null;
-        console.log(result);
+
+        let user;
+    
         return {
             // Bug here with result showing as null on gql playground
             // skip it?
             token,
-            result
+            user : {...result}
         };
     } catch(err){
         throw err
