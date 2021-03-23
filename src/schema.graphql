@@ -13,6 +13,7 @@ type Query {
     #login(loginInput: LoginInput!): AuthPayload
     userInfo(creatorId: ID!): UserInfo
     superUser(id: ID!): SuperUser
+    superUsers: SuperUser
 }
 
 # Main Mutation types

@@ -2,11 +2,11 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { APP_SECRET, getUserId } = require('../utils');
 
-const Users = require('../models/users');
 const Users2 = require('../models/users2');
 const Questions = require('../models/questions');
 const Answers = require('../models/answers');
 const UserInfo = require('../models/userInfo');
+const e = require('express');
 
 // Returning all users in the database
 async function users(){
@@ -152,18 +152,73 @@ async function superUser(parent, args) {
 
         const additionalInfo = await UserInfo.findOne({creator: args.id});
         console.log("additional info", additionalInfo)
+
+        let superUser;
+
+        if(additionalInfo){
+
+            superUser = {
+                _id: basicInfo._id,
+                email: basicInfo.email,
+                firstName: basicInfo.firstName,
+                lastName: basicInfo.lastName,
+                expertise: additionalInfo.expertise,
+                guide: additionalInfo.guide,
+                about: additionalInfo.about,
+                location: additionalInfo.location,
+                calendly: additionalInfo.calendly,
+                quote: additionalInfo.quote,
+            };
+        } else {
+            superUser = {
+                _id: basicInfo._id,
+                email: basicInfo.email,
+                firstName: basicInfo.firstName,
+                lastName: basicInfo.lastName,
+                expertise: [],
+                guide: false,
+                about: '',
+                location: '',
+                calendly: '',
+                quote: '',
+            };
+        }
+        
+
+        return superUser
+        
+    } catch(err){
+        throw err
+    }
+}
+
+async function superUsers() {
+    
+    try{
+
+        const basicInfo = await Users2.find();
+        console.log("basic Info", basicInfo)
+
+        const additionalInfo = await UserInfo.find();
+        console.log("additional info", additionalInfo)
+
+        let processedUser = [];
+
+        basicInfo.map(data=>{
+
+        })
         
         let superUser = {
             _id: basicInfo._id,
             email: basicInfo.email,
             firstName: basicInfo.firstName,
             lastName: basicInfo.lastName,
-            expertise: additionalInfo.expertise,
-            guide: additionalInfo.guide,
-            about: additionalInfo.about,
-            location: additionalInfo.location,
-            calendly: additionalInfo.calendly,
-            quote: additionalInfo.quote,
+            expertise: additionalInfo.expertise || [],
+            guide: additionalInfo.guide || false,
+            about: additionalInfo.about || '',
+            location: additionalInfo.location || '',
+            calendly: additionalInfo.calendly || '',
+            quote: additionalInfo.quote || '',
         };
 
         return superUser
@@ -183,5 +238,6 @@ module.exports = {
     userQuestions,
     userAnswers,
     userInfo,
-    superUser
+    superUser,
+    superUsers
 }
