@@ -113,22 +113,15 @@ async function signup(parent, args){
         // Save the item on the database
         newUser.password = null;
         await newUser.save();
-        let result = {
-            firstName: newUser.firstName,
-            lastName: newUser.lastName,
-            email: newUser.email,
-            password: null,
-        }
-        console.log("this is the newUser",newUser, "This is the result", result)
         // Clearing the password for security
-
-        let user;
+        let user = {...newUser._doc};
+        console.log(user)
     
         return {
             // Bug here with result showing as null on gql playground
             // skip it?
             token,
-            user : {...result}
+            user
         };
     } catch(err){
         throw err
