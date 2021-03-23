@@ -9,23 +9,18 @@ const userInfoSchema = new Schema({
     },
     guide: {
         type: Boolean,
-        required: true
     },
     about: {
         type: String,
-        required: true
     },
     location: {
         type: String,
-        required: true
     },
     expertise: {
         type: [String],
-        required: true
     },
     quote: {
         type: String,
-        required: true
     },
     calendly: {
         type: String
