@@ -111,8 +111,8 @@ async function signup(parent, args){
         // Creating a JWToken
         const token = jwt.sign({userId: newUser.id}, APP_SECRET);
         // Save the item on the database
-        newUser.password = null;
         await newUser.save();
+        newUser.password = null;
         // Clearing the password for security
         let user = {...newUser._doc};
         console.log(user)
