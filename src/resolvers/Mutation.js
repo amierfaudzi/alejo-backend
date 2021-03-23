@@ -118,7 +118,6 @@ async function signup(parent, args){
         console.log(user)
     
         return {
-            // Bug here with result showing as null on gql playground
             // skip it?
             token,
             user
