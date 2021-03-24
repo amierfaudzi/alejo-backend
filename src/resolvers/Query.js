@@ -156,7 +156,6 @@ async function superUser(parent, args) {
         let superUser;
 
         if(additionalInfo){
-
             superUser = {
                 _id: basicInfo._id,
                 email: basicInfo.email,
@@ -195,35 +194,55 @@ async function superUser(parent, args) {
 async function superUsers() {
     
     try{
-
         const basicInfo = await Users2.find();
-        console.log("basic Info", basicInfo)
-
-        const additionalInfo = await UserInfo.find();
-        console.log("additional info", additionalInfo)
+        const extraInfo = await UserInfo.find();
 
         let processedUser = [];
+        let superUser;
 
-        basicInfo.map(data=>{
+        basicInfo.map(basic=>{
+            let counter = 0;
+            extraInfo.map(extra=>{
+                
+                console.log("First", basic._id, "second", extra.creator);
 
+                if(String(basic._id) == String(extra.creator)){
+                    counter++;
+                    superUser = {
+                                _id: basic._id,
+                                email: basic.email,
+                                firstName: basic.firstName,
+                                lastName: basic.lastName,
+                                expertise: extra.expertise,
+                                guide: extra.guide,
+                                about: extra.about,
+                                location: extra.location,
+                                calendly: extra.calendly,
+                                quote: extra.quote,
+                                };
+                            processedUser.push(superUser)
+                }
+            })
+            if(counter < 1){
+                superUser = {
+                    _id: basic._id,
+                    email: basic.email,
+                    firstName: basic.firstName,
+                    lastName: basic.lastName,
+                    expertise: [],
+                    guide: false,
+                    about: '',
+                    location: '',
+                    calendly: '',
+                    quote: '',
+                };
+                processedUser.push(superUser)
+            }
         })
-        
-        let superUser = {
-            _id: basicInfo._id,
-            email: basicInfo.email,
-            firstName: basicInfo.firstName,
-            lastName: basicInfo.lastName,
-            expertise: additionalInfo.expertise || [],
-            guide: additionalInfo.guide || false,
-            about: additionalInfo.about || '',
-            location: additionalInfo.location || '',
-            calendly: additionalInfo.calendly || '',
-            quote: additionalInfo.quote || '',
-        };
 
-        return superUser
-        
-    } catch(err){
+    return processedUser;
+    
+    }catch(err){
         throw err
     }
 }
