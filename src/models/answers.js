@@ -12,8 +12,8 @@ const answerSchema = new Schema({
         required: true
     },
     creator: {
-        type: Schema.Types.ObjectId,
-        ref: 'Users'
+        type: Schema.Types.Mixed,
+        ref: 'Users2'
     },
     questionId: {
         type: Schema.Types.ObjectId,

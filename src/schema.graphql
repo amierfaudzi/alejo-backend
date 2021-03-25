@@ -112,7 +112,7 @@ input AnswerInput {
 type Answer {
     _id: ID!
     content: String!
-    creator: User!
+    creator: ShortUser!
     date: String!
     questionId: ID!
 }

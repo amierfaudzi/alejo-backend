@@ -12,7 +12,6 @@ const { user } = require('./Query');
 // Adding a question
 async function addQuestion(parent, args, context){
     const { userId } = context;
-    console.log(userId)
     // Check to see if there is an authorized user with the request
     if(!userId){
         throw new Error("Unauthenticated!");
@@ -49,9 +48,18 @@ async function addAnswer(parent, args, context) {
     }
 
     try {
+        const userBasic = await Users2.findById(userId);
+        const userExtra = await UserInfo.findOne({creator: userId})
+
+        const shortUser = {
+            _id: userId,
+            name: userBasic.firstName + " " + userBasic.lastName,
+            guide: userExtra.guide || false
+        }
+
         const newAnswer = new Answer({
             content: args.answerInput.content,
-            creator: userId,
+            creator: shortUser,
             questionId: args.answerInput.questionId,
             date: new Date()
         })
