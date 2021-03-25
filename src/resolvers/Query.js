@@ -52,10 +52,27 @@ async function guide(){
 async function allQuestions(){
     try {
         const questions = await Questions.find();
-        return questions.map(question => {
-            console.log(question);
-            return question
+        const answers = await Answers.find();
+
+        let fullPosts = [];
+        let fullPost;
+
+        questions.map(question => {
+            let allAnswers = [];
+            let counter = 0;
+            answers.map(answer=>{
+                if(String(answer.questionId) == String(question._id)){
+                    counter++;
+                    allAnswers.push(answer)
+                }
+            })
+            fullPost = {
+                question: question,
+                answers: allAnswers
+            }
+            fullPosts.push(fullPost)
         })
+        return fullPosts;
     } catch(err) {
         throw err
     }
@@ -89,7 +106,6 @@ async function userQuestions(parent, args, context){
 async function question(parent, args,){
     try {
         const question = await Questions.findById(args.id);
-        console.log(question)
         return question
     } catch(err) {
         throw err
@@ -148,10 +164,7 @@ async function superUser(parent, args) {
     try{
 
         const basicInfo = await Users2.findById(args.id);
-        console.log("basic Info", basicInfo)
-
         const additionalInfo = await UserInfo.findOne({creator: args.id});
-        console.log("additional info", additionalInfo)
 
         let superUser;
 
@@ -182,7 +195,6 @@ async function superUser(parent, args) {
                 quote: '',
             };
         }
-        
 
         return superUser
         
@@ -203,8 +215,6 @@ async function superUsers() {
         basicInfo.map(basic=>{
             let counter = 0;
             extraInfo.map(extra=>{
-                
-                console.log("First", basic._id, "second", extra.creator);
 
                 if(String(basic._id) == String(extra.creator)){
                     counter++;
@@ -241,7 +251,7 @@ async function superUsers() {
         })
 
     return processedUser;
-    
+
     }catch(err){
         throw err
     }

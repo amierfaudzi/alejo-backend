@@ -5,7 +5,7 @@ type Query {
     users: [User!]!
     user(id: ID!): User2
     guide: [User!]!
-    allQuestions: [Question!]!
+    allQuestions: [FullPost!]!
     question(id: ID!): Question
     userQuestions: [Question!]!
     userAnswers: [Answer!]!
@@ -144,6 +144,11 @@ type ShortUser {
     _id: ID!
     name: String!
     guide: Boolean!
+}
+
+type FullPost {
+    question: Question!
+    answers: [Answer]
 }
 
 # type UpVote {
