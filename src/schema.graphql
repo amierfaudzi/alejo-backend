@@ -101,7 +101,7 @@ type Question {
     _id: ID!
     content: String!
     date: String!
-    creator: User!
+    creator: ShortUser!
 }
 
 input AnswerInput {
@@ -138,6 +138,12 @@ type SuperUser {
     location: String!
     calendly: String!
     quote: String!
+}
+
+type ShortUser {
+    _id: ID!
+    name: String!
+    guide: Boolean!
 }
 
 # type UpVote {

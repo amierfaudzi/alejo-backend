@@ -7,19 +7,29 @@ const Users2 = require('../models/users2');
 const UserInfo = require('../models/userInfo');
 const Question = require('../models/questions');
 const Answer = require('../models/answers');
+const { user } = require('./Query');
 
 // Adding a question
 async function addQuestion(parent, args, context){
     const { userId } = context;
+    console.log(userId)
     // Check to see if there is an authorized user with the request
     if(!userId){
         throw new Error("Unauthenticated!");
     }
 
     try {
+        const userBasic = await Users2.findById(userId);
+        const userExtra = await UserInfo.findOne({creator: userId})
+
+        const shortUser = {
+            _id: userId,
+            name: userBasic.firstName + " " + userBasic.lastName,
+            guide: userExtra.guide || false
+        }
         const newQuestion = new Question({
             content: args.questionInput.content,
-            creator: userId, // should be the full user object
+            creator: shortUser,
             date: new Date()
         });
 
@@ -131,16 +141,13 @@ async function signup(parent, args){
 async function addUserInfo(parent, args, context){
 
     const { userId } = context;
-    console.log(userId)
         // Check to see if there is an authorized user with the request
         if(!userId){
             throw new Error("Unauthenticated!");
         }
         
     try{
-
         let existingUserInfo = await UserInfo.findOne({creator: userId});
-        
         if(!existingUserInfo){
             const userInfo = new UserInfo({
                 expertise: args.userInfoInput.expertise,
@@ -153,7 +160,6 @@ async function addUserInfo(parent, args, context){
             })
             // How to update if already created?
             let result = await userInfo.save();
-            console.log(result)
             return result;
         } else {
             existingUserInfo.overwrite({
@@ -168,33 +174,27 @@ async function addUserInfo(parent, args, context){
             await existingUserInfo.save();
             return existingUserInfo;
         }
-
     }catch(err){
         throw err
     }
 }
 
-// Sign in - might be redundant
+// Sign in
 async function signin(parent, args){
-
     try {
         const user = await Users2.findOne({email: args.loginInput.email});
         if(!user){
             throw new Error("No such user exists")
         }
         const isEqual = await bcrypt.compare(args.loginInput.password, user.password);
-
         if(!isEqual){
             throw new Error("Incorrect Password");
         }
-
         const token = jwt.sign({userId: user.id}, APP_SECRET);
-
         return {
             user,
             token
         }
-
     } catch(err){
         throw err
     }
@@ -208,13 +208,10 @@ async function login(parent, args){
             throw new Error("No such user exists")
         }
         const isEqual = await bcrypt.compare(args.loginInput.password, user.password);
-
         if(!isEqual){
             throw new Error("Incorrect Password");
         }
-
         const token = jwt.sign({userId: user.id}, APP_SECRET);
-
         return {
             user,
             token
