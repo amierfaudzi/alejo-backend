@@ -141,9 +141,9 @@ type SuperUser {
 }
 
 type ShortUser {
-    _id: ID!
-    name: String!
-    guide: Boolean!
+    _id: ID
+    name: String
+    guide: Boolean
 }
 
 type FullPost {
